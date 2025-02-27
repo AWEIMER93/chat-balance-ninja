@@ -82,6 +82,7 @@ export const ChatScreen = () => {
 
   return (
     <div className="min-h-screen chat-gradient flex flex-col">
+      {/* Header */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -129,12 +130,11 @@ export const ChatScreen = () => {
               <div className="w-20 h-20 rounded-full bg-emerald-500/30 flex items-center justify-center">
                 <div className="w-16 h-16 rounded-full bg-emerald-500/40 flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center">
-                    <motion.div
-                      animate={{ scale: [1, 1.1, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      🔄
-                    </motion.div>
+                    <img 
+                      src="https://companieslogo.com/img/orig/RBS.D-0e74e871.png?t=1720244493" 
+                      alt="Citizens Bank Logo"
+                      className="w-8 h-8 object-contain"
+                    />
                   </div>
                 </div>
               </div>
@@ -158,7 +158,7 @@ export const ChatScreen = () => {
             >
               <motion.div
                 layout
-                className={`max-w-[80%] rounded-2xl p-4 ${
+                className={`max-w-[80%] rounded-3xl p-4 ${
                   message.sender === "user"
                     ? "bg-emerald-500 text-white"
                     : "bg-white/10 text-white"
@@ -177,7 +177,7 @@ export const ChatScreen = () => {
         animate={{ opacity: 1, y: 0 }}
         className="p-4 bg-gradient-to-t from-black via-black/90 to-transparent"
       >
-        <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="grid grid-cols-3 gap-3 mb-4">
           {quickActions.map((action, index) => (
             <motion.div
               key={action.id}
@@ -187,9 +187,9 @@ export const ChatScreen = () => {
             >
               <Button
                 variant="ghost"
-                className="pill-button w-full text-white/80 hover:text-white text-sm h-auto py-2 px-4"
+                className="pill-button w-full flex items-center justify-center gap-2 text-white/90 hover:text-white text-sm"
               >
-                <span className="mr-2">{action.icon}</span>
+                <span>{action.icon}</span>
                 {action.text}
               </Button>
             </motion.div>
@@ -202,17 +202,17 @@ export const ChatScreen = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Search or ask for anything..."
-            className="bg-black/20 border-0 text-white placeholder:text-white/50 rounded-full"
+            className="bg-black/20 border-0 text-white placeholder:text-white/50 rounded-full px-6 py-4 h-auto"
           />
           <motion.div
             whileTap={{ scale: 0.95 }}
           >
             <Button
               size="icon"
-              className={`rounded-full ${isRecording ? "bg-red-500" : "bg-emerald-500"}`}
+              className={`rounded-full w-12 h-12 ${isRecording ? "bg-red-500" : "bg-emerald-500"}`}
               onClick={() => setIsRecording(!isRecording)}
             >
-              <Mic className="h-4 w-4" />
+              <Mic className="h-5 w-5" />
             </Button>
           </motion.div>
           <motion.div
@@ -220,11 +220,11 @@ export const ChatScreen = () => {
           >
             <Button
               size="icon"
-              className="rounded-full bg-emerald-500"
+              className="rounded-full w-12 h-12 bg-emerald-500"
               onClick={handleSend}
               disabled={!input.trim()}
             >
-              <Send className="h-4 w-4" />
+              <Send className="h-5 w-5" />
             </Button>
           </motion.div>
         </div>

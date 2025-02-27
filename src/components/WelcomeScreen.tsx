@@ -24,7 +24,7 @@ export const WelcomeScreen = () => {
         >
           <div className="w-32 h-32 bg-white/20 rounded-full mx-auto glass-effect flex items-center justify-center">
             <img 
-              src="https://logos-world.net/wp-content/uploads/2021/08/Citizens-Bank-Symbol.png" 
+              src="https://companieslogo.com/img/orig/RBS.D-0e74e871.png?t=1720244493" 
               alt="Citizens Bank Logo" 
               className="w-24 h-24 object-contain"
             />
