@@ -24,8 +24,8 @@ export const WelcomeScreen = () => {
         >
           <div className="w-32 h-32 bg-white/20 rounded-full mx-auto glass-effect flex items-center justify-center">
             <img 
-              src="/lovable-uploads/c2000803-5fe5-402f-b43f-c6993cdc6b82.png" 
-              alt="CiZi Logo" 
+              src="https://logos-world.net/wp-content/uploads/2021/08/Citizens-Bank-Symbol.png" 
+              alt="Citizens Bank Logo" 
               className="w-24 h-24 object-contain"
             />
           </div>

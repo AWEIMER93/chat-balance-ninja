@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Send, ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -74,9 +74,14 @@ export const ChatScreen = () => {
     }
   };
 
+  const messageVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 }
+  };
+
   return (
     <div className="min-h-screen chat-gradient flex flex-col">
-      {/* Header */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -91,9 +96,13 @@ export const ChatScreen = () => {
           <ArrowLeft className="h-6 w-6" />
         </Button>
         <div className="flex items-center gap-2">
-          <div className="bg-emerald-500/20 px-3 py-1 rounded-full text-emerald-400 text-sm">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-emerald-500/20 px-3 py-1 rounded-full text-emerald-400 text-sm"
+          >
             Insight
-          </div>
+          </motion.div>
           <Button
             variant="ghost"
             size="icon"
@@ -104,19 +113,22 @@ export const ChatScreen = () => {
         </div>
       </motion.div>
 
-      {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="space-y-4">
+        <AnimatePresence mode="popLayout">
           {messages.map((message) => (
             <motion.div
               key={message.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              variants={messageVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className={`flex ${
                 message.sender === "user" ? "justify-end" : "justify-start"
-              }`}
+              } mb-4`}
             >
-              <div
+              <motion.div
+                layout
                 className={`max-w-[80%] rounded-2xl p-4 ${
                   message.sender === "user"
                     ? "bg-emerald-500 text-white"
@@ -124,29 +136,37 @@ export const ChatScreen = () => {
                 }`}
               >
                 {message.text}
-              </div>
+              </motion.div>
             </motion.div>
           ))}
-          <div ref={messagesEndRef} />
-        </div>
+        </AnimatePresence>
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Quick Actions */}
-      <div className="p-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="p-4"
+      >
         <div className="grid grid-cols-3 gap-2 mb-4">
-          {quickActions.map((action) => (
-            <Button
+          {quickActions.map((action, index) => (
+            <motion.div
               key={action.id}
-              variant="ghost"
-              className="text-white/80 hover:text-white hover:bg-white/10 text-sm h-auto py-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
             >
-              <span className="mr-2">{action.icon}</span>
-              {action.text}
-            </Button>
+              <Button
+                variant="ghost"
+                className="text-white/80 hover:text-white hover:bg-white/10 text-sm h-auto py-2 w-full"
+              >
+                <span className="mr-2">{action.icon}</span>
+                {action.text}
+              </Button>
+            </motion.div>
           ))}
         </div>
 
-        {/* Input Area */}
         <div className="flex items-center gap-2">
           <Input
             value={input}
@@ -155,23 +175,31 @@ export const ChatScreen = () => {
             placeholder="Search or ask for anything..."
             className="bg-white/10 border-0 text-white placeholder:text-white/50"
           />
-          <Button
-            size="icon"
-            className={`${isRecording ? "bg-red-500" : "bg-emerald-500"}`}
-            onClick={() => setIsRecording(!isRecording)}
+          <motion.div
+            whileTap={{ scale: 0.95 }}
           >
-            <Mic className="h-4 w-4" />
-          </Button>
-          <Button
-            size="icon"
-            className="bg-emerald-500"
-            onClick={handleSend}
-            disabled={!input.trim()}
+            <Button
+              size="icon"
+              className={`${isRecording ? "bg-red-500" : "bg-emerald-500"}`}
+              onClick={() => setIsRecording(!isRecording)}
+            >
+              <Mic className="h-4 w-4" />
+            </Button>
+          </motion.div>
+          <motion.div
+            whileTap={{ scale: 0.95 }}
           >
-            <Send className="h-4 w-4" />
-          </Button>
+            <Button
+              size="icon"
+              className="bg-emerald-500"
+              onClick={handleSend}
+              disabled={!input.trim()}
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
