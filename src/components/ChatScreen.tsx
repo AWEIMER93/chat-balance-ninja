@@ -114,6 +114,35 @@ export const ChatScreen = () => {
       </motion.div>
 
       <div className="flex-1 overflow-y-auto p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
+        >
+          <h1 className="text-3xl font-bold text-white mb-2">Good morning, Jane!</h1>
+          <motion.div 
+            className="w-24 h-24 mx-auto mb-4"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          >
+            <div className="w-full h-full rounded-full bg-emerald-400/20 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-emerald-500/30 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/40 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center">
+                    <motion.div
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      🔄
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          <p className="text-white/90 text-lg">How can I help you?</p>
+        </motion.div>
+
         <AnimatePresence mode="popLayout">
           {messages.map((message) => (
             <motion.div
@@ -146,7 +175,7 @@ export const ChatScreen = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-4"
+        className="p-4 bg-gradient-to-t from-black via-black/90 to-transparent"
       >
         <div className="grid grid-cols-3 gap-2 mb-4">
           {quickActions.map((action, index) => (
@@ -158,7 +187,7 @@ export const ChatScreen = () => {
             >
               <Button
                 variant="ghost"
-                className="text-white/80 hover:text-white hover:bg-white/10 text-sm h-auto py-2 w-full"
+                className="pill-button w-full text-white/80 hover:text-white text-sm h-auto py-2 px-4"
               >
                 <span className="mr-2">{action.icon}</span>
                 {action.text}
@@ -173,14 +202,14 @@ export const ChatScreen = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Search or ask for anything..."
-            className="bg-white/10 border-0 text-white placeholder:text-white/50"
+            className="bg-black/20 border-0 text-white placeholder:text-white/50 rounded-full"
           />
           <motion.div
             whileTap={{ scale: 0.95 }}
           >
             <Button
               size="icon"
-              className={`${isRecording ? "bg-red-500" : "bg-emerald-500"}`}
+              className={`rounded-full ${isRecording ? "bg-red-500" : "bg-emerald-500"}`}
               onClick={() => setIsRecording(!isRecording)}
             >
               <Mic className="h-4 w-4" />
@@ -191,7 +220,7 @@ export const ChatScreen = () => {
           >
             <Button
               size="icon"
-              className="bg-emerald-500"
+              className="rounded-full bg-emerald-500"
               onClick={handleSend}
               disabled={!input.trim()}
             >
